@@ -72,6 +72,11 @@ RSpec.describe 'URL validation' do
       expect(user).to be_valid
     end
 
+    it 'does not allow an IDN url' do
+      user.homepage = "http://linkedin.com/in/etcïs-abcé-b070838"
+      expect(user).to_not be_valid
+    end
+
     it "does not allow a url with a space in the hostname" do
       user.homepage = "http://foo bar.com"
       expect(user).not_to be_valid
@@ -285,6 +290,20 @@ RSpec.describe 'URL validation' do
       user.valid?
 
       expect(user.errors[:homepage]).to eq(["wrong"])
+    end
+  end
+
+  context 'with allow_idn option' do
+    let!(:user) { UserWithAllowIdn.new }
+
+    it 'allows IDN urls' do
+      user.homepage = 'http://linkedin.com/in/etcïs-abcé-b070838'
+      expect(user).to be_valid
+    end
+
+    it 'allows a url with a special chars in the querystring' do
+      user.homepage = "http://example.com/?abc=詹姆斯"
+      expect(user).to be_valid
     end
   end
 

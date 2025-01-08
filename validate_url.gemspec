@@ -11,10 +11,11 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Tanel Suurhans".freeze, "Tarmo Lehtpuu".freeze, "Vladimir Krylov".freeze]
-  s.date = "2022-05-13"
+  s.date = "2025-01-08"
   s.description = "Library for validating urls in Rails.".freeze
   s.email = ["tanel.suurhans@perfectline.co".freeze, "tarmo.lehtpuu@perfectline.co".freeze, "vladimir.krylov@perfectline.co".freeze]
   s.extra_rdoc_files = [
+    "CHANGELOG.md",
     "LICENSE.md",
     "README.md"
   ]
@@ -28,6 +29,7 @@ Gem::Specification.new do |s|
     "lib/locale/en.yml",
     "lib/locale/es.yml",
     "lib/locale/fr.yml",
+    "lib/locale/gd.yml",
     "lib/locale/it.yml",
     "lib/locale/ja.yml",
     "lib/locale/km.yml",
@@ -46,34 +48,25 @@ Gem::Specification.new do |s|
     "lib/validate_url/rspec_matcher.rb"
   ]
   s.homepage = "http://github.com/perfectline/validates_url/tree/master".freeze
-  s.rubygems_version = "3.0.8".freeze
+  s.rubygems_version = "3.1.6".freeze
   s.summary = "Library for validating urls in Rails.".freeze
-
-  s.metadata = {
-    "changelog_uri".freeze => "https://github.com/perfectline/validates_url/blob/master/CHANGELOG.md".freeze
-  }
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
+  end
 
-    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<jeweler>.freeze, [">= 0"])
-      s.add_development_dependency(%q<sqlite3>.freeze, [">= 0"])
-      s.add_development_dependency(%q<activerecord>.freeze, [">= 0"])
-      s.add_development_dependency(%q<rspec>.freeze, [">= 0"])
-      s.add_development_dependency(%q<diff-lcs>.freeze, [">= 1.1.2"])
-      s.add_runtime_dependency(%q<activemodel>.freeze, [">= 3.0.0"])
-      s.add_runtime_dependency(%q<public_suffix>.freeze, [">= 0"])
-    else
-      s.add_dependency(%q<jeweler>.freeze, [">= 0"])
-      s.add_dependency(%q<sqlite3>.freeze, [">= 0"])
-      s.add_dependency(%q<activerecord>.freeze, [">= 0"])
-      s.add_dependency(%q<rspec>.freeze, [">= 0"])
-      s.add_dependency(%q<diff-lcs>.freeze, [">= 1.1.2"])
-      s.add_dependency(%q<activemodel>.freeze, [">= 3.0.0"])
-      s.add_dependency(%q<public_suffix>.freeze, [">= 0"])
-    end
+  if s.respond_to? :add_runtime_dependency then
+    s.add_runtime_dependency(%q<validate_url>.freeze, [">= 0"])
+    s.add_development_dependency(%q<jeweler>.freeze, [">= 0"])
+    s.add_development_dependency(%q<sqlite3>.freeze, [">= 0"])
+    s.add_development_dependency(%q<activerecord>.freeze, [">= 0"])
+    s.add_development_dependency(%q<rspec>.freeze, [">= 0"])
+    s.add_development_dependency(%q<diff-lcs>.freeze, [">= 1.1.2"])
+    s.add_runtime_dependency(%q<activemodel>.freeze, [">= 3.0.0"])
+    s.add_runtime_dependency(%q<public_suffix>.freeze, [">= 0"])
+    s.add_runtime_dependency(%q<simpleidn>.freeze, [">= 0.2"])
   else
+    s.add_dependency(%q<validate_url>.freeze, [">= 0"])
     s.add_dependency(%q<jeweler>.freeze, [">= 0"])
     s.add_dependency(%q<sqlite3>.freeze, [">= 0"])
     s.add_dependency(%q<activerecord>.freeze, [">= 0"])
@@ -81,5 +74,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<diff-lcs>.freeze, [">= 1.1.2"])
     s.add_dependency(%q<activemodel>.freeze, [">= 3.0.0"])
     s.add_dependency(%q<public_suffix>.freeze, [">= 0"])
+    s.add_dependency(%q<simpleidn>.freeze, [">= 0.2"])
   end
 end
+

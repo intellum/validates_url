@@ -1,6 +1,7 @@
 require 'active_model'
 require 'active_support/i18n'
 require 'public_suffix'
+require 'simpleidn'
 I18n.load_path += Dir[File.dirname(__FILE__) + "/locale/*.yml"]
 
 module ActiveModel
@@ -14,6 +15,7 @@ module ActiveModel
         options.reverse_merge!(no_local: false)
         options.reverse_merge!(public_suffix: false)
         options.reverse_merge!(accept_array: false)
+        options.reverse_merge!(allow_idn: false)
 
         super(options)
       end
@@ -50,12 +52,13 @@ module ActiveModel
       end
 
       def validate_url(record, attribute, value, schemes)
-        uri = value && URI.parse(URI::Parser.new.escape(value))
+        url = options.fetch(:allow_idn) ? SimpleIDN.to_ascii(value) : value
+        uri = value && URI.parse(URI::Parser.new.escape(url))
         host = uri && uri.host
         scheme = uri && uri.scheme
 
         valid_host = host && !host.empty?
-        valid_raw_url = scheme && value =~ /\A#{URI::regexp([scheme])}\z/
+        valid_raw_url = scheme && url =~ /\A#{URI::DEFAULT_PARSER.make_regexp([scheme])}\z/
         valid_scheme = host && scheme && schemes.include?(scheme)
         valid_no_local = !options.fetch(:no_local) || (host && host.include?('.'))
         valid_suffix = !options.fetch(:public_suffix) || (host && PublicSuffix.valid?(host, :default_rule => nil))
