@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    validate_url (1.0.15)
+    validate_url (1.1.0)
       activemodel (>= 3.0.0)
       public_suffix
       simpleidn (>= 0.2)
